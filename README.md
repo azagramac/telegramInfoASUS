@@ -14,8 +14,8 @@ On Asus RT-AX88U Pro with merlin firmware version [388.3_0](https://onedrive.liv
 ### Capture
 ![image](https://github.com/AzagraMac/botTelegramASUS/assets/571796/7fb762bd-5513-45ed-92dc-daa15c59713c)
 
-### Coming soon
-Scheduling a cron job to run regularly
+### Cron job
+`cru a status "0 */2 * * * /jffs/scripts/status.sh"`
 
 #### Thanks
 [@juanrs_05](https://twitter.com/juanrs_05) and [@RMerlinDev](https://twitter.com/RMerlinDev)
