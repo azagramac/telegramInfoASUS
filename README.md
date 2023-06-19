@@ -14,7 +14,8 @@ On Asus RT-AX88U Pro with merlin firmware version [388.3_0](https://onedrive.liv
 - Copy script `/jffs/scripts/`
 
 ### Capture
-![image](https://github.com/AzagraMac/botTelegramASUS/assets/571796/7fb762bd-5513-45ed-92dc-daa15c59713c)
+![v1.1](https://github.com/AzagraMac/telegramInfoASUS/assets/571796/202cf688-1021-45a7-82b8-3b9213829db5)
+
 
 ### Cron job
 `cru a status "0 */2 * * * /jffs/scripts/status.sh"`
