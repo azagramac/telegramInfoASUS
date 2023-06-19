@@ -17,7 +17,7 @@ On Asus RT-AX88U Pro with merlin firmware version [388.3_0](https://onedrive.liv
 ![v1.1](https://github.com/AzagraMac/telegramInfoASUS/assets/571796/202cf688-1021-45a7-82b8-3b9213829db5)
 
 
-### Cron job, in this example, it is executed every 2h
+#### Cron job, in this example, it is executed every 2h
 ```
 cru a status "0 */2 * * * /jffs/scripts/status.sh"
 ```
