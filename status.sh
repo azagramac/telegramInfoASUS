@@ -1,14 +1,13 @@
 #!/bin/sh
 
 #
-# Dev: AzagraMac | 2023
+# Dev: AzagraMac 2023
+# version: 1.1
 # Link: https://azagramac.gitbook.io/
 #
 
 # Unset vars
 unset $IP_PWAN0
-unset $IP_DNS1
-unset $IP_DNS2
 unset $IP_LAN
 unset $FIRMWARE_VERSION
 unset $MODEL_NAME
@@ -26,11 +25,15 @@ unset $SWAP_USED
 unset $CPU_USED_1M
 unset $CPU_USED_5M
 unset $CPU_USED_15M
+unset $UPTIME
+unset $SKYNET_VERSION
+unset $IPS_BANNED
+unset $IN_BLOCK
+unset $OUT_BLOCK
+unset $SIGN_DATE
 
 IP_WAN0=$(nvram get wan0_ipaddr)
 IP_LAN=$(nvram get lan_ipaddr)
-IP_DNS1=$(nvram get wan_dns1_x)
-IP_DNS2=$(nvram get wan_dns2_x)
 
 FIRMWARE_VERSION=$(nvram get webs_state_info_am)
 MODEL_NAME=$(nvram get wps_device_name)
@@ -53,6 +56,17 @@ CPU_USED_1M=$(cat /proc/loadavg | awk '{print $1}')
 CPU_USED_5M=$(cat /proc/loadavg | awk '{print $2}')
 CPU_USED_15M=$(cat /proc/loadavg | awk '{print $3}')
 
+UPTIME=$(uptime|sed 's/.*\([0-9]\+ days\), \([0-9]\+\):\([0-9]\+\).*/\1, \2 hours, \3 minutes/')
+
+## Skynet, How to! https://azagramac.gitbook.io/myblog/asus-router/instalar-skynet
+SKYNET_VERSION=$(cat /tmp/mnt/sda1/skynet/skynet.cfg | grep localver | awk -F "=" '{print $2}' | tr -d '"')
+IPS_BANNED=$(cat /tmp/mnt/sda1/skynet/events.log | tail -1 | awk '{print $6}')
+IN_BLOCK=$(cat /tmp/mnt/sda1/skynet/events.log | tail -1 | awk '{print $15}')
+OUT_BLOCK=$(cat /tmp/mnt/sda1/skynet/events.log | tail -1 | awk '{print $18}')
+
+## Sign Trend
+SIGN_DATE=$(nvram get bwdpi_sig_ver)
+
 ## Telegram
 TELEGRAM_AUTH="/jffs/telegram.env"
 TOKEN=$(cat $TELEGRAM_AUTH | grep "TOKEN" | awk -F "=" '{print $2}')
@@ -69,47 +83,53 @@ then
     curl -s -X POST $API_TELEGRAM \
         -d chat_id=$CHATID \
         -d text="$(printf "<b>$BANNER</b>\n\n \
-        <b>Information</b>\n \
+        📊 <b>Status</b>\n \
+        - CPU Temp: $TEMP_CPUº\n \
+        - WLAN 2.4: $TEMP_WIFI24º\n \
+        - WLAN 5: $TEMP_WIFI5º\n \
+        ---\n \
+        - Uptime: $UPTIME\n \
+        - Load CPU: $CPU_USED_1M / $CPU_USED_5M / $CPU_USED_15M\n \
+        - RAM Used: $RAM_USED_PERCENTAGE%% / Free: $RAM_FREE_PERCENTAGE%%\n \
+        - Swap Used: $SWAP_USED%%\n\n \
+        🧱 <b>Skynet</b>\n \
+        - Skynet: $SKYNET_VERSION\n \
+        - IPs Banned: $IPS_BANNED\n \
+        - Inbound Blocks: $IN_BLOCK\n \
+        - Outbound Blocks: $OUT_BLOCK\n\n \
+        📃 <b>Info</b>\n \
         - Model: $MODEL_NAME\n \
         - Firmware: $FIRMWARE_VERSION\n \
-        - SSID WiFi 2.4Ghz: $SSID_24GHZ\n \
-        - SSID WiFi 5Ghz: $SSID_5GHZ\n\n \
-        <b>Temperatures</b>\n \
-        * CPU: $TEMP_CPUº\n \
-        * WiFi 2.4Ghz: $TEMP_WIFI24º\n \
-        * WiFi 5Ghz: $TEMP_WIFI5º\n\n \
-        <b>Monitor</b>\n \
-        * Load CPU (1m/5m/15m):\n \
-        \t\t$CPU_USED_1M / $CPU_USED_5M / $CPU_USED_15M\n \
-        * RAM Used: $RAM_USED_PERCENTAGE%%\n \
-        * Swap Used: $SWAP_USED%%\n\n \
-        <b>Network</b>\n \
-        * WAN: $IP_WAN0\n \
-        * DNS 1: $IP_DNS1\n \
-        * DNS 2: $IP_DNS2\n \
-        * LAN: $IP_LAN\n")" > /dev/null 2>&1
+        - SSDID 2.4Ghz: $SSID_24GHZ\n \
+        - SSDID 5Ghz: $SSID_5GHZ\n \
+        - IP WAN: $IP_WAN0\n \
+        - IP LAN: $IP_LAN\n \
+        - Trend Micro sign: $SIGN_DATE\n")" > /dev/null 2>&1
 else
     BANNER="❄️ $MODEL_NAME | CPU: $TEMP_CPUº ❄️"
     curl -s -X POST $API_TELEGRAM \
         -d chat_id=$CHATID \
         -d text="$(printf "<b>$BANNER</b>\n\n \
-        <b>Information</b>\n \
+        📊 <b>Status</b>\n \
+        - CPU Temp: $TEMP_CPUº\n \
+        - WLAN 2.4: $TEMP_WIFI24º\n \
+        - WLAN 5: $TEMP_WIFI5º\n \
+        ---\n \
+        - Uptime: $UPTIME\n \
+        - Load CPU: $CPU_USED_1M / $CPU_USED_5M / $CPU_USED_15M\n \
+        - RAM Used: $RAM_USED_PERCENTAGE%% / Free: $RAM_FREE_PERCENTAGE%%\n \
+        - Swap Used: $SWAP_USED%%\n\n \
+        🧱 <b>Skynet</b>\n \
+        - Skynet: $SKYNET_VERSION\n \
+        - IPs Banned: $IPS_BANNED\n \
+        - Inbound Blocks: $IN_BLOCK\n \
+        - Outbound Blocks: $OUT_BLOCK\n\n \
+        📃 <b>Info</b>\n \
         - Model: $MODEL_NAME\n \
         - Firmware: $FIRMWARE_VERSION\n \
-        - SSID WiFi 2.4Ghz: $SSID_24GHZ\n \
-        - SSID WiFi 5Ghz: $SSID_5GHZ\n\n \
-        <b>Temperatures</b>\n \
-        * CPU: $TEMP_CPUº\n \
-        * WiFi 2.4Ghz: $TEMP_WIFI24º\n \
-        * WiFi 5Ghz: $TEMP_WIFI5º\n\n \
-        <b>Monitor</b>\n \
-        * Load CPU (1m/5m/15m):\n \
-        \t\t$CPU_USED_1M / $CPU_USED_5M / $CPU_USED_15M\n \
-        * RAM Used: $RAM_USED_PERCENTAGE%%\n \
-        * Swap Used: $SWAP_USED%%\n\n \
-        <b>Network</b>\n \
-        * WAN: $IP_WAN0\n \
-        * DNS 1: $IP_DNS1\n \
-        * DNS 2: $IP_DNS2\n \
-        * LAN: $IP_LAN\n")" > /dev/null 2>&1
+        - SSDID 2.4Ghz: $SSID_24GHZ\n \
+        - SSDID 5Ghz: $SSID_5GHZ\n \
+        - IP WAN: $IP_WAN0\n \
+        - IP LAN: $IP_LAN\n \
+        - Trend Micro sign: $SIGN_DATE\n")" > /dev/null 2>&1
 fi
