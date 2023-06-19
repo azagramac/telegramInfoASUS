@@ -56,7 +56,7 @@ CPU_USED_1M=$(cat /proc/loadavg | awk '{print $1}')
 CPU_USED_5M=$(cat /proc/loadavg | awk '{print $2}')
 CPU_USED_15M=$(cat /proc/loadavg | awk '{print $3}')
 
-UPTIME=$(uptime|sed 's/.*\([0-9]\+ days\), \([0-9]\+\):\([0-9]\+\).*/\1, \2 hours, \3 minutes/')
+UPTIME=$(uptime | awk -F'( |,|:)+' '{print $6,$7",",$8,"hours,",$9,"minutes"}')
 
 ## Skynet, How to! https://azagramac.gitbook.io/myblog/asus-router/instalar-skynet
 SKYNET_VERSION=$(cat /tmp/mnt/sda1/skynet/skynet.cfg | grep localver | awk -F "=" '{print $2}' | tr -d '"')
