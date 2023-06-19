@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/github/license/AzagraMac/telegramInfoASUS.svg?style=for-the-badge&color=yellow)](LICENSE) <a href="https://www.paypal.com/paypalme/azagramac" target="_blank"><img src="https://www.nopcommerce.com/images/thumbs/0005707_paypalme-payment-method.png" alt="Buy Me A Coffee" style="height: 28px !important;" align="right" /></a><br/>
+
 ### Requirement
 You have an ASUS router compatible with [firmware merlin](https://www.asuswrt-merlin.net).
 List supported devices: https://github.com/RMerl/asuswrt-merlin.ng/wiki/Supported-Devices
