@@ -86,7 +86,6 @@ function sendMessage()
         - CPU Temp: $TEMP_CPUº\n \
         - WLAN 2.4 Temp: $TEMP_WIFI24º\n \
         - WLAN 5 Temp: $TEMP_WIFI5º\n \
-        ---\n \
         - Uptime: $UPTIME\n \
         - Load CPU: $CPU_USED_1M / $CPU_USED_5M / $CPU_USED_15M\n \
         - RAM Used: $RAM_USED_PERCENTAGE%% / Free: $RAM_FREE_PERCENTAGE%%\n \
