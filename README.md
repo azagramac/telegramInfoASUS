@@ -20,7 +20,7 @@ Asus RT-AX88U Pro
 - Copy script `/jffs/scripts/`
 
 ### Capture
-![v1.1](https://github.com/AzagraMac/telegramInfoASUS/assets/571796/653f0ae7-d6ab-4385-9d87-1a703d0d0f0f)
+![v1.1](https://github.com/AzagraMac/telegramInfoASUS/assets/571796/ca3d0fce-b391-44d6-b777-47cd03199b17)
 
 
 #### Cron job, in this example, it is executed every 2h
